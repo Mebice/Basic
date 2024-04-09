@@ -1,7 +1,7 @@
 import Mock from "mockjs"
 // 内存模拟数据
 const arr = []
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 100; i++) {
   arr.push({
     id: Mock.mock("@id"),
     name: Mock.mock("@name"),

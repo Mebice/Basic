@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,computed,watch } from 'vue';
 import Edit from './components/Edit.vue'
 import Add from './components/Add.vue'
 import axios from 'axios';
@@ -9,6 +9,9 @@ import axios from 'axios';
 const name = ref(''); // 绑定输入的姓名
 const city = ref(''); // 绑定输入的城市
 const list = ref([]) // 存放的地方
+const currentPage = ref(1); // 當前頁
+const pageSize = ref(10); // 一頁顯示的筆數
+
 // const getList = async () => {
 //   // 調用接口，await.get('') 或 await.post('')
 //   const response = await axios.get('/list')
@@ -50,6 +53,16 @@ const addRef = ref(null)
 const onAdd = () => {
   addRef.value.open()
 }
+
+// 分頁 : 需要计算当前页数据的起始索引和结束索引，以便从整个数据列表中提取当前页的数据子集
+// 計算起始索引 : 因为 JavaScript 的数组索引是从 0 开始的，所以需要将 currentPage 减去 1
+const startIndex = computed(() => (currentPage.value - 1) * pageSize.value);
+// 计算结束索引 : 起始索引加上每页显示的数据数量，但是不能超过整个数据列表的长度。将起始索引加上每页显示的数据数量，然后将结果与整个数据列表的长度进行比较，取两者中的最小值
+const endIndex = computed(() => Math.min(startIndex.value + pageSize.value, list.value.length));
+// 提取当前页数据 : 从整个数据列表中提取当前页的数据子集，使用数组的 slice() 方法
+const currentPageData = computed(() => list.value.slice(startIndex.value, endIndex.value));
+const totalItems = computed(() => list.value.length); // 總頁數
+
 </script>
 
 <template>
@@ -71,13 +84,9 @@ const onAdd = () => {
       id: 2,
       name: 'momo',
       place: '上海',
-    }, {
-      id: 3,
-      name: 'lisa',
-      place: '浙江',
     }]"> -->
       <button @click="onAdd">新增</button>
-      <el-table :data="list">
+      <el-table :data="currentPageData" >
         <el-table-column label="ID" prop="id"></el-table-column>
         <el-table-column label="姓名" prop="name" width="150"></el-table-column>
         <el-table-column label="城市" prop="place"></el-table-column>
@@ -92,7 +101,18 @@ const onAdd = () => {
     <!-- <Edit ref="editRef" @on-update="getList" /> -->
     <Edit ref="editRef" @on-update="search" />
     <!-- <Add ref="addRef" @on-add="getList" /> -->
-    <Add ref="addRef" @on-add="search" />
+    <Add ref="addRef" @on-add="search" />  
+
+    <div class="demo-pagination-block">
+    <el-pagination
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      background
+      layout="prev, pager, next, total, jumper"
+      :total="totalItems"
+    />
+  </div>
+
   </div>
 </template>
 
