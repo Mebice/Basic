@@ -103,7 +103,7 @@ const totalItems = computed(() => list.value.length); // 總頁數
     <!-- <Add ref="addRef" @on-add="getList" /> -->
     <Add ref="addRef" @on-add="search" />  
 
-    <div class="demo-pagination-block">
+    <div  v-if="list.length > 0" class="demo-pagination-block">
     <el-pagination
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
@@ -118,15 +118,23 @@ const totalItems = computed(() => list.value.length); // 總頁數
 
 <style scoped>
 .bgArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 .searchArea{
-  width: 500px;
   margin: 50px auto 0;
+
+  input{
+    width: 200px;
+    height: 20px;
+    margin: 0 20px 0 10px;
+  }
 }
 
   .app {
     width: 980px;
     margin: 0px auto 50px;
   }
-
 }
 </style>
