@@ -4,7 +4,7 @@ const arr = []
 for (let i = 0; i < 10; i++) {
   arr.push({
     id: Mock.mock("@id"),
-    name: Mock.mock("@cname"),
+    name: Mock.mock("@name"),
     place: Mock.mock("@city(true)"),
   })
 }
