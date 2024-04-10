@@ -88,14 +88,20 @@ const totalItems = computed(() => list.value.length); // 總頁數
       <button class="addBtn" @click="onAdd"><i class="fa-solid fa-plus"></i> 新增</button>
       <el-table :data="currentPageData">
         <el-table-column label="ID" prop="id"></el-table-column>
-        <el-table-column label="姓名" prop="name" width="150"></el-table-column>
+        <el-table-column label="姓名" prop="name" ></el-table-column>
         <el-table-column label="城市" prop="place"></el-table-column>
-        <el-table-column label="操作" width="150">
+        <el-table-column label="編輯"  #default="{ row }" width="70">
+          <el-button type="primary" @click="onEdit(row)" link><i class="fa-solid fa-pen"></i></el-button>
+        </el-table-column>
+        <el-table-column label="刪除"  #default="{ row }" width="70">
+          <el-button type="danger" @click="onDelete(row.id)" link><i class="fa-solid fa-trash"></i></el-button>
+        </el-table-column>
+        <!-- <el-table-column label="操作" width="150">
           <template #default="{ row }">
             <el-button type="primary" @click="onEdit(row)" link>编辑</el-button>
             <el-button type="danger" @click="onDelete(row.id)" link>删除</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </div>
     <!-- <Edit ref="editRef" @on-update="getList" /> -->
@@ -168,6 +174,10 @@ const totalItems = computed(() => list.value.length); // 總頁數
   .app {
     width: 980px;
     margin: 0px auto 50px;
+
+    .fa-pen,.fa-trash{
+      margin-left: 5px;
+    }
   }
 }
 </style>
