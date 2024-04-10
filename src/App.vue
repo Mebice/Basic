@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted,computed,watch } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import Edit from './components/Edit.vue'
 import Add from './components/Add.vue'
 import axios from 'axios';
@@ -72,7 +72,7 @@ const totalItems = computed(() => list.value.length); // 總頁數
       <input type="text" id="name" v-model="name" placeholder="請輸入姓名">
       <label for="city">城市</label>
       <input type="text" id="city" v-model="city" placeholder="請輸入城市">
-      <button @click="search">搜尋</button>
+      <i class="fa-solid fa-magnifying-glass" @click="search"></i>
     </div>
     <div class="app">
       <!-- 要使用此table的話需要 npm install element-plus -->
@@ -85,8 +85,8 @@ const totalItems = computed(() => list.value.length); // 總頁數
       name: 'momo',
       place: '上海',
     }]"> -->
-      <button @click="onAdd">新增</button>
-      <el-table :data="currentPageData" >
+      <button class="addBtn" @click="onAdd"><i class="fa-solid fa-plus"></i> 新增</button>
+      <el-table :data="currentPageData">
         <el-table-column label="ID" prop="id"></el-table-column>
         <el-table-column label="姓名" prop="name" width="150"></el-table-column>
         <el-table-column label="城市" prop="place"></el-table-column>
@@ -101,17 +101,12 @@ const totalItems = computed(() => list.value.length); // 總頁數
     <!-- <Edit ref="editRef" @on-update="getList" /> -->
     <Edit ref="editRef" @on-update="search" />
     <!-- <Add ref="addRef" @on-add="getList" /> -->
-    <Add ref="addRef" @on-add="search" />  
+    <Add ref="addRef" @on-add="search" />
 
-    <div  v-if="list.length > 0" class="demo-pagination-block">
-    <el-pagination
-      v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
-      background
-      layout="prev, pager, next, total, jumper"
-      :total="totalItems"
-    />
-  </div>
+    <div v-if="list.length > 0" class="demo-pagination-block">
+      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" background
+        layout="prev, pager, next, total, jumper" :total="totalItems" />
+    </div>
 
   </div>
 </template>
@@ -121,17 +116,55 @@ const totalItems = computed(() => list.value.length); // 總頁數
   display: flex;
   flex-direction: column;
   align-items: center;
-  
-.searchArea{
-  margin: 50px auto 0;
 
-  input{
-    width: 200px;
-    height: 20px;
-    margin: 0 20px 0 10px;
+  .searchArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 950px;
+    height: 60px;
+    /* border: 2px solid #409eff; */
+    border-radius: 10px;
+    background-color: #f0f2f5;
+    margin: 20px 0;
+
+    label {
+      color: #0063c7;
+    }
+
+    input {
+      width: 200px;
+      height: 20px;
+      border: 1.5px solid rgb(210, 218, 227);
+      border-radius: 5px;
+      margin: 0 70px 0 20px;
+      padding-left: 5px;
+    }
+
+    .fa-magnifying-glass {
+      color: #409eff;
+      font-size: 18pt;
+
+      &:hover {
+        cursor: pointer;
+        color: #869096;
+      }
+    }
   }
-}
+.addBtn{
+  font-size: 12pt;
+  color: #0063c7;
+  /* border: 1.5px solid rgb(210, 218, 227); */
+  border: none;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 5px;
 
+  &:hover{
+    cursor: pointer;
+    color: #7b8c9d;
+    }
+}
   .app {
     width: 980px;
     margin: 0px auto 50px;
