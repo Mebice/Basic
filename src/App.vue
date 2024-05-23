@@ -145,6 +145,7 @@ const totalItems = computed(() => list.value.length); // 總頁數
       border-radius: 5px;
       margin: 0 70px 0 20px;
       padding-left: 5px;
+      outline: none;
     }
 
     .fa-magnifying-glass {
